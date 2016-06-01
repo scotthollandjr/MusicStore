@@ -5,9 +5,16 @@ import { Album } from './album.model';
     selector: 'album-display',
     inputs: ['album'],
   template: `
-    <h3>{{ album.title }}</h3>
+  <div>
+    <input *ngIf="album.cart" type="checkbox" checked (click)="toggleCart(false)"/>
+    <input *ngIf="!album.cart" type="checkbox" (click)="toggleCart(true)"/>
+    <label>{{ album.artist }} - {{ album.title }}</label>
+  </div>
   `
 })
 export class AlbumComponent {
   public album: Album;
+  toggleCart(setState: boolean) {
+    this.album.cart = setState;
+  }
 }
