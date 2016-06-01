@@ -19,8 +19,8 @@ export class AppComponent {
   public albums: Album[];
   constructor() {
     this.albums = [
-      new Album("Radiohead", "In Rainbows", "Alternative", 24.99, 0),
-      new Album("Beach House", "Thank Your Lucky Stars", "Shoegaze", 19.99, 1)
+      new Album("Radiohead", "In Rainbows", "Alternative", 0),
+      new Album("Beach House", "Thank Your Lucky Stars", "Shoegaze", 1)
     ];
   }
   albumWasSelected(clickedAlbum: Album): void {
