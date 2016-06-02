@@ -8,7 +8,7 @@ import { Album } from './album.model';
   <div>
     <input *ngIf="album.cart" type="checkbox" checked (click)="toggleCart(false)"/>
     <input *ngIf="!album.cart" type="checkbox" (click)="toggleCart(true)"/>
-    <label>{{ album.artist }} - {{ album.title }}</label>
+    <label>{{ album.artist }} - {{ album.title }}: \${{ album.price }}</label>
   </div>
   `
 })
