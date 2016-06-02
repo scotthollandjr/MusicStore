@@ -6,12 +6,13 @@ import { NewAlbumComponent } from './new-album.component';
 import { CartPipe } from './cart.pipe';
 import { CartDisplayComponent } from './cart-display.component';
 import { GenreDisplayComponent } from './genre-display.component';
+import { GenrePipe } from './genre.pipe';
 
 @Component({
   selector: 'album-list',
   inputs: ['albumList'],
   outputs: ['onAlbumSelect'],
-  pipes: [CartPipe],
+  pipes: [CartPipe, GenrePipe],
   directives: [AlbumComponent, EditAlbumDetailsComponent, NewAlbumComponent, CartDisplayComponent, GenreDisplayComponent],
   template: `
   <div class="row">
@@ -21,15 +22,17 @@ import { GenreDisplayComponent } from './genre-display.component';
         <option value="cart">Show Cart</option>
         <option value="notCart">Show Not Cart</option>
       </select>
-      <album-display *ngFor="#currentAlbum of albumList | cart:filterCart"
+
+      <select (change)="onGenreChange($event.target.value)">
+        <option value="all" selected="selected">Show All</option>
+        <option *ngFor="#genre of allGenres" value="{{ genre }}">{{ genre }}</option>
+      </select>
+
+      <album-display *ngFor="#currentAlbum of albumList | cart:filterCart | genre:filterGenre"
         (click)="albumClicked(currentAlbum)"
         [class.selected]="currentAlbum === selectedAlbum"
         [album]="currentAlbum">
       </album-display>
-
-      <select>
-        <option *ngFor="#genre of allGenres" value="{{ genre }}">{{ genre }}</option>
-      </select>
 
       <edit-album-details *ngIf="selectedAlbum" [album]="selectedAlbum">
       </edit-album-details>
@@ -49,6 +52,7 @@ export class AlbumListComponent {
   public allGenres: String[] = [];
   public onAlbumSelect: EventEmitter<Album>;
   public filterCart: string = "notCart";
+  public filterGenre: string = "all";
   public selectedAlbum: Album;
   constructor() {
     this.onAlbumSelect = new EventEmitter();
@@ -62,7 +66,6 @@ export class AlbumListComponent {
     newAlbum.id = this.albumList.length;
     newAlbum.price = 10;
     this.albumList.push(newAlbum);
-    //var currentGenre = newAlbum.genre
     if (this.allGenres.indexOf(newAlbum.genre) === -1) {
       this.allGenres.push(newAlbum.genre);
     }
@@ -71,5 +74,8 @@ export class AlbumListComponent {
     this.filterCart = filterOption;
     console.log(this.filterCart);
   }
-
+  onGenreChange(filterGenreOption) {
+    this.filterGenre = filterGenreOption;
+    console.log(this.filterGenre);
+  }
 }

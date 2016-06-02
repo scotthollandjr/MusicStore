@@ -20,7 +20,7 @@ export class NewAlbumComponent {
     this.onSubmitNewAlbum = new EventEmitter();
   }
   addAlbum(userTitle: HTMLInputElement, userArtist: HTMLInputElement, userGenre: HTMLInputElement) {
-    var newAlbum = new Album(userArtist.value, userTitle.value, userGenre.value, 0);
+    var newAlbum = new Album(userArtist.value, userTitle.value, userGenre.value, 10, 0);
     this.onSubmitNewAlbum.emit(newAlbum);
     userTitle.value = "";
     userArtist.value = "";
